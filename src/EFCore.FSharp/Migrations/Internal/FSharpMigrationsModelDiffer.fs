@@ -28,8 +28,7 @@ type FSharpMigrationsModelDiffer
         let clrType = p.ClrType
         let isPrimaryKey = p.IsPrimaryKey()
 
-        let isNullable =
-            (isOptionType clrType || isNullableType clrType)
+        let isNullable = (isOptionType clrType || isNullableType clrType)
 
         isNullable && not isPrimaryKey
 
@@ -40,16 +39,14 @@ type FSharpMigrationsModelDiffer
             diffContext: MigrationsModelDiffer.DiffContext
         ) : MigrationOperation seq =
 
-        let sourceTypeProperty =
-            (source.PropertyMappings |> Seq.head).Property
+        let sourceTypeProperty = (source.PropertyMappings |> Seq.head).Property
 
-        let targetTypeProperty =
-            (target.PropertyMappings |> Seq.head).Property
+        let targetTypeProperty = (target.PropertyMappings |> Seq.head).Property
 
         (source :?> Column).IsNullable <- isNullableType sourceTypeProperty
         (target :?> Column).IsNullable <- isNullableType targetTypeProperty
 
-        base.Diff(source, target, diffContext)
+        ``base``.Diff(source, target, diffContext)
 
     override _.Add
         (
@@ -58,9 +55,8 @@ type FSharpMigrationsModelDiffer
             [<Optional; DefaultParameterValue(false)>] ``inline``: bool
         ) : MigrationOperation seq =
 
-        let sourceTypeProperty =
-            (source.PropertyMappings |> Seq.head).Property
+        let sourceTypeProperty = (source.PropertyMappings |> Seq.head).Property
 
         (source :?> Column).IsNullable <- isNullableType sourceTypeProperty
 
-        base.Add(source, diffContext, ``inline``)
+        ``base``.Add(source, diffContext, ``inline``)

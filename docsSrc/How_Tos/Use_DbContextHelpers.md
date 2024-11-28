@@ -1,6 +1,7 @@
 # Use RecordHelpers
 
-EFCore.FSharp also includes a number of helper methods for allowing a more F#-like experience while interacting with a `DbContext`.
+EFCore.FSharp also includes a number of helper methods for allowing a more F#-like experience while interacting with a
+`DbContext`.
 
 They can be found in `EntityFrameworkCore.FSharp.DbContextHelpers`
 
@@ -68,7 +69,8 @@ let interactWithContext (ctx:MyContext) =
     updatedBlogFromDb.Content = "My updated content" // This will be true
 ```
 
-An advantage of the generalised `updateEntity` function is that it allows us to use partial application to easily create methods for specific entities. For example:
+An advantage of the generalised `updateEntity` function is that it allows us to use partial application to easily create
+methods for specific entities. For example:
 
 ```fsharp
 
@@ -84,8 +86,8 @@ updateBlog { myBlog with Content = "Updated content" }
 
 ```
 
-We also have methods and functions for `DbSet`/`IQueryable` to replace usage of `FirstOrDefault` and `FirstOrDefaultAsync`:
-
+We also have methods and functions for `DbSet`/`IQueryable` to replace usage of `FirstOrDefault` and
+`FirstOrDefaultAsync`:
 
 ```fsharp
 
@@ -128,4 +130,5 @@ let queryingContext (ctx:MyContext) =
 
 ## Async methods
 
-All methods in `EntityFrameworkCore.FSharp.DbContextHelpers` also have Async variants with support for `async { ... }` expressions
+All methods in `EntityFrameworkCore.FSharp.DbContextHelpers` also have Async variants with support for `async { ... }`
+expressions

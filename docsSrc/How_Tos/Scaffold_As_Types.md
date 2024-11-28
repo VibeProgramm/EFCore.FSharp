@@ -2,7 +2,8 @@
 
 EF Core allows us to scaffold a model in code, based on an existing database.
 
-Because F# allows multiple ways of representing an object, we are able to provide configuration options for how that generated code is formed.
+Because F# allows multiple ways of representing an object, we are able to provide configuration options for how that
+generated code is formed.
 
 ## Record vs Class type
 
@@ -31,7 +32,8 @@ type BlogPostClass() =
     member this.Content with get() = this._Content and set v = this._Content <- v
 ```
 
-Similarly, if we had a nullable column, for instance of type `Guid`, it might be specified as either `Nullable<Guid>` or in more idiomatic F#, as `guid option`
+Similarly, if we had a nullable column, for instance of type `Guid`, it might be specified as either `Nullable<Guid>` or
+in more idiomatic F#, as `guid option`
 
 Again, we provide options for how these should be scaffolded.
 
@@ -41,11 +43,14 @@ We provide `EntityFramework.FSharp.ScaffoldOptions` to specify how we want to cr
 
 By default we scaffold record types with nullable columns represented as `option` types, but this can be overridden.
 
-To do this, you'll need your own implementation of `IDesignTimeServices`, where we can declare a `ScaffoldOptions` object.
+To do this, you'll need your own implementation of `IDesignTimeServices`, where we can declare a `ScaffoldOptions`
+object.
 
-The `ScaffoldOptions.Default` object is equivalent to `ScaffoldOptions (ScaffoldTypesAs = RecordType, ScaffoldNullableColumnsAs = OptionTypes)`
+The `ScaffoldOptions.Default` object is equivalent to
+`ScaffoldOptions (ScaffoldTypesAs = RecordType, ScaffoldNullableColumnsAs = OptionTypes)`
 
-If you are happy with the default of record-type objects with `option` properties then you will not need to implement this at all, it is already handled automatically for you.
+If you are happy with the default of record-type objects with `option` properties then you will not need to implement
+this at all, it is already handled automatically for you.
 
 ```fsharp
 module DesignTimeServices =

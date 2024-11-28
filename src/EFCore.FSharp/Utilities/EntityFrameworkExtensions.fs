@@ -11,8 +11,7 @@ open Microsoft.EntityFrameworkCore.Migrations.Internal
 
 module internal EntityFrameworkExtensions =
 
-    let getConfiguredColumnType =
-        RelationalPropertyExtensions.GetConfiguredColumnType
+    let getConfiguredColumnType = RelationalPropertyExtensions.GetConfiguredColumnType
 
     let getPrimaryKey (p: IProperty) = (p :?> Property).PrimaryKey
 

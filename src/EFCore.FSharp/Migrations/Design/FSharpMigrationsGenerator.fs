@@ -26,11 +26,9 @@ type FSharpMigrationsGenerator(dependencies, fSharpDependencies: FSharpMigration
 
     let code = fSharpDependencies.FSharpHelper
 
-    let generator =
-        fSharpDependencies.FSharpMigrationOperationGenerator
+    let generator = fSharpDependencies.FSharpMigrationOperationGenerator
 
-    let snapshot =
-        fSharpDependencies.FSharpSnapshotGenerator
+    let snapshot = fSharpDependencies.FSharpSnapshotGenerator
 
     // Due to api shape we're currently forced to work around the fact EF expects 2 files per migration
     let mutable tempUpOperations = list.Empty
@@ -62,11 +60,9 @@ type FSharpMigrationsGenerator(dependencies, fSharpDependencies: FSharpMigration
         (downOperations)
         (model)
         =
-        let allOperations =
-            (upOperations |> Seq.append downOperations)
+        let allOperations = (upOperations |> Seq.append downOperations)
 
-        let operationNamespaces =
-            this.GetNamespaces allOperations |> Seq.toList
+        let operationNamespaces = this.GetNamespaces allOperations |> Seq.toList
 
         let namespaces =
             (getDefaultNamespaces contextType

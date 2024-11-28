@@ -190,8 +190,7 @@ module internal rec SharedTypeExtensions =
         if not (underlyingNonNullableType.GetTypeInfo()).IsEnum then
             t
         else
-            let underlyingEnumType =
-                Enum.GetUnderlyingType(underlyingNonNullableType)
+            let underlyingEnumType = Enum.GetUnderlyingType(underlyingNonNullableType)
 
             if isNullable then
                 makeNullable true underlyingEnumType
@@ -199,8 +198,7 @@ module internal rec SharedTypeExtensions =
                 underlyingEnumType
 
     let isInteger (t: Type) =
-        let t' =
-            t |> unwrapNullableType |> unwrapOptionType
+        let t' = t |> unwrapNullableType |> unwrapOptionType
 
         t' = typeof<int>
         || t' = typeof<int64>
@@ -213,8 +211,7 @@ module internal rec SharedTypeExtensions =
         || t' = typeof<char>
 
     let isNumeric (t: Type) =
-        let t' =
-            t |> unwrapNullableType |> unwrapOptionType
+        let t' = t |> unwrapNullableType |> unwrapOptionType
 
         (isInteger t')
         || t' = typeof<decimal>
@@ -222,8 +219,7 @@ module internal rec SharedTypeExtensions =
         || t' = typeof<float32>
 
     let isSignedInteger (t: Type) =
-        let t' =
-            t |> unwrapNullableType |> unwrapOptionType
+        let t' = t |> unwrapNullableType |> unwrapOptionType
 
         t' = typeof<int>
         || t' = typeof<int64>
@@ -242,15 +238,13 @@ module internal rec SharedTypeExtensions =
            |> ((=) 1)
 
     let unwrapSingleCaseUnion t =
-        let case =
-            FSharpType.GetUnionCases(t) |> Array.exactlyOne
+        let case = FSharpType.GetUnionCases(t) |> Array.exactlyOne
 
         let field = case.GetFields() |> Array.head
         field.PropertyType
 
     let getRequiredRuntimeMethod (t: Type, name: string, parameters: Type []) =
-        let result =
-            t.GetTypeInfo().GetRuntimeMethod(name, parameters)
+        let result = t.GetTypeInfo().GetRuntimeMethod(name, parameters)
 
         if isNull result then
             invalidOp $"Could not find method '{name}' on type '{t}'"

@@ -147,9 +147,9 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
         | true, value -> value
         | _ ->
             if t |> isNullableType then
-                sprintf "Nullable<%s>" (this.ReferenceFullName(t |> unwrapNullableType) useFullName)
+                sprintf "Nullable<%s>" (this.ReferenceFullName (t |> unwrapNullableType) useFullName)
             elif t |> isOptionType then
-                sprintf "%s option" (this.ReferenceFullName(t |> unwrapOptionType) useFullName)
+                sprintf "%s option" (this.ReferenceFullName (t |> unwrapOptionType) useFullName)
             else
                 let builder = StringBuilder()
 
@@ -160,7 +160,7 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
 
                 if t.IsArray then
                     builder
-                        .Append(this.ReferenceFullName(t.GetElementType()) false)
+                        .Append(this.ReferenceFullName (t.GetElementType()) false)
                         .Append("[")
                     |> ignore
 
@@ -171,7 +171,7 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
                     builder |> string
                 elif t.IsNested then
                     builder
-                        .Append(this.ReferenceFullName(t.DeclaringType) false)
+                        .Append(this.ReferenceFullName (t.DeclaringType) false)
                         .Append(".")
                     |> ignore
 
@@ -207,8 +207,7 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
         sprintf "[| %s |]" (String.Join("; ", v))
 
     member private this.literalArray(values: Array) =
-        let v =
-            values.Cast<obj>() |> Seq.map this.unknownLiteral
+        let v = values.Cast<obj>() |> Seq.map this.unknownLiteral
 
         sprintf "[| %s |]" (String.Join("; ", v))
 
@@ -301,17 +300,16 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
         let valuesCount = Array2D.length2 values - 1
 
         let rowContents =
-            [ 0 .. rowCount ]
-            |> Seq.map
-                (fun i ->
-                    let row' = values.[i, 0..valuesCount]
+            [ 0..rowCount ]
+            |> Seq.map (fun i ->
+                let row' = values.[i, 0..valuesCount]
 
-                    let entries =
-                        row'
-                        |> Seq.map this.unknownLiteral
-                        |> Seq.map literalAsObj
+                let entries =
+                    row'
+                    |> Seq.map this.unknownLiteral
+                    |> Seq.map literalAsObj
 
-                    sprintf "[ %s ]" (String.Join("; ", entries)))
+                sprintf "[ %s ]" (String.Join("; ", entries)))
 
         sprintf "array2D [ %s ]" (String.Join("; ", rowContents))
 
@@ -330,14 +328,13 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
 
         let results =
             exps
-            |> Seq.map
-                (fun e ->
-                    sb.Append(separator) |> ignore
+            |> Seq.map (fun e ->
+                sb.Append(separator) |> ignore
 
-                    let result = this.handleExpression e simple sb
+                let result = this.handleExpression e simple sb
 
-                    separator <- ", "
-                    result)
+                separator <- ", "
+                result)
 
         results |> Seq.forall (fun r -> r = true)
 
@@ -356,8 +353,7 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
         | ExpressionType.Convert ->
             sb.Append("(") |> ignore
 
-            let result =
-                this.handleExpression (expression :?> UnaryExpression).Operand false sb
+            let result = this.handleExpression (expression :?> UnaryExpression).Operand false sb
 
             sb.Append($" :?> {this.ReferenceFullName expression.Type true})")
             |> ignore
@@ -388,8 +384,7 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
                 this.handleArguments callExpr.Arguments sb
 
         | ExpressionType.Constant ->
-            let value =
-                (expression :?> ConstantExpression).Value
+            let value = (expression :?> ConstantExpression).Value
 
             let valueToWrite =
                 if simple && (value.GetType() |> isNumeric) then
@@ -450,14 +445,13 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
         let allValues = flags |> this.getFlags |> HashSet
 
         allValues
-        |> Seq.iter
-            (fun a ->
-                let decomposedValues = this.getFlags a
+        |> Seq.iter (fun a ->
+            let decomposedValues = this.getFlags a
 
-                if decomposedValues.Length > 1 then
-                    decomposedValues
-                    |> Seq.filter (fun v -> not (obj.Equals(v, a)))
-                    |> allValues.ExceptWith)
+            if decomposedValues.Length > 1 then
+                decomposedValues
+                |> Seq.filter (fun v -> not (obj.Equals(v, a)))
+                |> allValues.ExceptWith)
 
         let folder previous current =
             if String.IsNullOrEmpty previous then
@@ -690,8 +684,7 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
 
                 let literalType = value.GetType()
 
-                let mapping =
-                    relationalTypeMappingSource.FindMapping literalType
+                let mapping = relationalTypeMappingSource.FindMapping literalType
 
                 if isNull mapping then
                     let t = value.GetType()
@@ -709,14 +702,12 @@ type FSharpHelper(relationalTypeMappingSource: IRelationalTypeMappingSource) =
                     let builder = IndentedStringBuilder()
                     let expression = mapping.GenerateCodeLiteral(value)
 
-                    let handled =
-                        this.handleExpression expression false builder
+                    let handled = this.handleExpression expression false builder
 
                     if handled then
                         builder.ToString()
                     else
-                        let args =
-                            ((expression.ToString()), (displayName literalType false false))
+                        let args = ((expression.ToString()), (displayName literalType false false))
 
                         args
                         |> DesignStrings.LiteralExpressionNotSupported

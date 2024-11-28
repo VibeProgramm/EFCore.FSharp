@@ -5,11 +5,9 @@ open System.Collections.Generic
 type Multigraph<'TVertex, 'TEdge when 'TVertex: equality>() =
     let vertexSet = HashSet<'TVertex>()
 
-    let successorMap =
-        Dictionary<'TVertex, Dictionary<'TVertex, List<'TEdge>>>()
+    let successorMap = Dictionary<'TVertex, Dictionary<'TVertex, List<'TEdge>>>()
 
-    let predecessorMap =
-        Dictionary<'TVertex, HashSet<'TVertex>>()
+    let predecessorMap = Dictionary<'TVertex, HashSet<'TVertex>>()
 
     member this.AddVertices(vertices: 'TVertex seq) = vertexSet.UnionWith(vertices)
 
@@ -65,15 +63,13 @@ type Multigraph<'TVertex, 'TEdge when 'TVertex: equality>() =
             | _ -> Seq.empty
 
         vertexSet
-        |> Seq.iter
-            (fun v ->
-                getOutgoingNeighbour v
-                |> Seq.iter
-                    (fun n ->
-                        if predecessorCounts.ContainsKey(n) then
-                            predecessorCounts.[n] <- predecessorCounts.[n] + 1
-                        else
-                            predecessorCounts.[n] <- 1))
+        |> Seq.iter (fun v ->
+            getOutgoingNeighbour v
+            |> Seq.iter (fun n ->
+                if predecessorCounts.ContainsKey(n) then
+                    predecessorCounts.[n] <- predecessorCounts.[n] + 1
+                else
+                    predecessorCounts.[n] <- 1))
 
         vertexSet
         |> Seq.filter (predecessorCounts.ContainsKey >> not)
@@ -85,13 +81,12 @@ type Multigraph<'TVertex, 'TEdge when 'TVertex: equality>() =
             while index < sortedQueue.Count do
                 getOutgoingNeighbour (sortedQueue.[index])
                 |> Seq.filter predecessorCounts.ContainsKey
-                |> Seq.iter
-                    (fun n ->
-                        predecessorCounts.[n] <- predecessorCounts.[n] - 1
+                |> Seq.iter (fun n ->
+                    predecessorCounts.[n] <- predecessorCounts.[n] - 1
 
-                        if predecessorCounts.[n] = 0 then
-                            sortedQueue.Add(n)
-                            predecessorCounts.Remove(n) |> ignore)
+                    if predecessorCounts.[n] = 0 then
+                        sortedQueue.Add(n)
+                        predecessorCounts.Remove(n) |> ignore)
 
                 index <- index + 1
 

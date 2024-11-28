@@ -32,14 +32,12 @@ type FSharpMigrationsScaffolder(dependencies) =
                 + migration.FileExtension
             )
 
-        let modelSnapshotFileName =
-            migration.SnapshotName + migration.FileExtension
+        let modelSnapshotFileName = migration.SnapshotName + migration.FileExtension
 
         let modelSnapshotDirectory =
             this.GetDirectory(projectDir, modelSnapshotFileName, migration.SnapshotSubnamespace)
 
-        let modelSnapshotFile =
-            Path.Combine(modelSnapshotDirectory, modelSnapshotFileName)
+        let modelSnapshotFile = Path.Combine(modelSnapshotDirectory, modelSnapshotFileName)
 
         dependencies.OperationReporter.WriteVerbose(DesignStrings.WritingMigration(migrationFile))
 

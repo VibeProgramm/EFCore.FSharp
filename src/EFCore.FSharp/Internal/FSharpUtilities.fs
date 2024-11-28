@@ -228,12 +228,11 @@ module FSharpUtilities =
 
                 let args =
                     t.GenericTypeArguments
-                    |> Array.map
-                        (fun t' ->
-                            if isNull t' then
-                                failwithf "%s has a null arg" t.Name
-                            else
-                                t' |> getTypeName)
+                    |> Array.map (fun t' ->
+                        if isNull t' then
+                            failwithf "%s has a null arg" t.Name
+                        else
+                            t' |> getTypeName)
                     |> join ", "
 
                 match _fsharpTypeNames.TryGetValue genericTypeDefName with
@@ -280,8 +279,7 @@ module FSharpUtilities =
         |> Option.map (fun x -> x :?> 'a)
 
     let exprToLinq (expr: Expr<'a -> 'b>) =
-        let linq =
-            LeafExpressionConverter.QuotationToExpression expr
+        let linq = LeafExpressionConverter.QuotationToExpression expr
 
         let call = linq :?> MethodCallExpression
         let lambda = call.Arguments.[0] :?> LambdaExpression

@@ -47,12 +47,12 @@ module StringBuffer =
         fun (b: IndentedStringBuilder) ->
             match txt with
             | Some t ->
-                for _ in [ 1 .. n ] do
+                for _ in [ 1..n ] do
                     b.DecrementIndent() |> ignore
 
                 Printf.kprintf (b.AppendLines >> ignore) "%s" t
 
-                for _ in [ 1 .. n ] do
+                for _ in [ 1..n ] do
                     b.IncrementIndent() |> ignore
             | None -> ()
 

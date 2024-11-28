@@ -4,13 +4,15 @@
 
 ## What is EFCore.FSharp?
 
-EFCore.FSharp provides F# design time support for EF Core.  
+EFCore.FSharp provides F# design time support for EF Core.
 
 ## Why use EFCore.FSharp?
 
-EF Core is the default option for data access that most people with experience in .NET are aware of. It should be possible to use any .NET language with it, not just C#
+EF Core is the default option for data access that most people with experience in .NET are aware of. It should be
+possible to use any .NET language with it, not just C#
 
-This provides support for code-first and database-first use of EF Core in F#, including supporting record and option types.
+This provides support for code-first and database-first use of EF Core in F#, including supporting record and option
+types.
 
 ---
 

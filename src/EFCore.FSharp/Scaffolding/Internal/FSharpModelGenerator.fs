@@ -71,8 +71,7 @@ type FSharpModelGenerator
 
         let dbContextFileName = options.ContextName
 
-        let domainFileName =
-            dbContextFileName.Replace("Context", "Domain")
+        let domainFileName = dbContextFileName.Replace("Context", "Domain")
 
         let generatedCode =
             contextGenerator.WriteCode(
@@ -98,11 +97,9 @@ type FSharpModelGenerator
             else
                 dbContextFileName
 
-        let contextFile =
-            ScaffoldedFile(Code = generatedCode, Path = path)
+        let contextFile = ScaffoldedFile(Code = generatedCode, Path = path)
 
-        let resultingFiles =
-            ScaffoldedModel(ContextFile = contextFile)
+        let resultingFiles = ScaffoldedModel(ContextFile = contextFile)
 
         let domainFile = ScaffoldedFile()
         domainFile.Path <- (domainFileName + fileExtension)

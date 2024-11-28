@@ -14,9 +14,9 @@
 
 EF Core by default does not know anything about the way of F# deals with nullable values which is the Option type.
 
-This project has a way to enable query for columns defined as an option, first you need to call `.UseFSharpTypes()` on the 
+This project has a way to enable query for columns defined as an option, first you need to call `.UseFSharpTypes()` on
+the
 context configuration builder
-
 
 ```fsharp
 open EntityFrameworkCore.FSharp.Extensions
@@ -46,7 +46,7 @@ type MyContext () =
 
 ```
 
-Note that the  `.UseFSharpTypes()` will exist independent of the database, the `UseSqlite` is just for the example. 
+Note that the  `.UseFSharpTypes()` will exist independent of the database, the `UseSqlite` is just for the example.
 If you are using an SQL server with `UseSqlServer` or `UsePostgres` for Postgres, or any other database it will exist.
 
 ## Querying
@@ -54,7 +54,7 @@ If you are using an SQL server with `UseSqlServer` or `UsePostgres` for Postgres
 With that, you will be able to query your entity by an optional column.
 
 Querying entities with `Some` content
-    
+
 ```fsharp
 let queryWhereSome (ctx: MyContext) =
 
@@ -72,7 +72,6 @@ let queryWhereSome (ctx: MyContext) =
 
     ()
 ```
-
 
 Querying entities with `None` content
 

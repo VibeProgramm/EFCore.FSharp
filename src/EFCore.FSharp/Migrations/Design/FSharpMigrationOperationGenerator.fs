@@ -16,13 +16,11 @@ open EntityFrameworkCore.FSharp
 type FSharpMigrationOperationGenerator(code: ICSharpHelper) =
 
     let toOnedimensionalArray firstDimension (a: obj [,]) =
-        Array.init
-            a.Length
-            (fun i ->
-                if firstDimension then
-                    a.[i, 0]
-                else
-                    a.[0, i])
+        Array.init a.Length (fun i ->
+            if firstDimension then
+                a.[i, 0]
+            else
+                a.[0, i])
 
     let sanitiseName name =
         if FSharpUtilities.isKeyword name then
@@ -86,12 +84,11 @@ type FSharpMigrationOperationGenerator(code: ICSharpHelper) =
             let tail =
                 lines
                 |> Seq.tail
-                |> Seq.map
-                    (fun l ->
-                        if includeIgnore && l = last then
-                            l + " |> ignore"
-                        else
-                            l)
+                |> Seq.map (fun l ->
+                    if includeIgnore && l = last then
+                        l + " |> ignore"
+                    else
+                        l)
 
             stringBuilder {
                 ")" + (lines |> Seq.head)
@@ -234,8 +231,7 @@ type FSharpMigrationOperationGenerator(code: ICSharpHelper) =
                 if isOptionType op.ClrType then
                     $").SetValueConverter(OptionConverter<%s{op.ClrType |> unwrapOptionType |> code.Reference}> ()"
 
-                let hasNoOldAnnotations =
-                    op.OldColumn.GetAnnotations() |> Seq.isEmpty
+                let hasNoOldAnnotations = op.OldColumn.GetAnnotations() |> Seq.isEmpty
 
                 annotations hasNoOldAnnotations (op.GetAnnotations())
 
@@ -251,8 +247,7 @@ type FSharpMigrationOperationGenerator(code: ICSharpHelper) =
 
             indent {
 
-                let hasNoOldAnnotations =
-                    op.OldDatabase.GetAnnotations() |> Seq.isEmpty
+                let hasNoOldAnnotations = op.OldDatabase.GetAnnotations() |> Seq.isEmpty
 
                 annotations hasNoOldAnnotations (op.GetAnnotations())
 
@@ -277,8 +272,7 @@ type FSharpMigrationOperationGenerator(code: ICSharpHelper) =
                 writeNullableParameterIfValue "oldMaxValue " op.OldSequence.MaxValue
                 writeParameterIfTrue op.OldSequence.IsCyclic "oldCyclic" "true"
 
-                let hasNoOldAnnotations =
-                    op.OldSequence.GetAnnotations() |> Seq.isEmpty
+                let hasNoOldAnnotations = op.OldSequence.GetAnnotations() |> Seq.isEmpty
 
                 annotations hasNoOldAnnotations (op.GetAnnotations())
 
@@ -295,8 +289,7 @@ type FSharpMigrationOperationGenerator(code: ICSharpHelper) =
                 writeName op.Name
                 writeSchema op.Schema
 
-                let hasNoOldAnnotations =
-                    op.OldTable.GetAnnotations() |> Seq.isEmpty
+                let hasNoOldAnnotations = op.OldTable.GetAnnotations() |> Seq.isEmpty
 
                 annotations hasNoOldAnnotations (op.GetAnnotations())
 
@@ -754,8 +747,7 @@ type FSharpMigrationOperationGenerator(code: ICSharpHelper) =
                              |> toOnedimensionalArray false
                              |> code.Literal)
                 elif length1 = 1 then
-                    let arr =
-                        op.KeyValues |> toOnedimensionalArray true
+                    let arr = op.KeyValues |> toOnedimensionalArray true
 
                     let lines = code.Literal(arr, true)
                     yield sprintf "keyValues = %s" lines
@@ -795,8 +787,7 @@ type FSharpMigrationOperationGenerator(code: ICSharpHelper) =
                              |> toOnedimensionalArray false
                              |> code.Literal)
                 elif length1 = 1 then
-                    let arr =
-                        op.KeyValues |> toOnedimensionalArray true
+                    let arr = op.KeyValues |> toOnedimensionalArray true
 
                     let lines = code.Literal(arr, true)
                     yield sprintf "keyValues = %s" lines

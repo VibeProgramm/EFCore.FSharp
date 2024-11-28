@@ -18,12 +18,15 @@ function findPos(obj) {
         curleft += obj.offsetLeft;
         curtop += obj.offsetTop;
         obj = obj.offsetParent;
-    };
+    }
+
     return [curleft, curtop];
 }
 
 function hideUsingEsc(e) {
-    if (!e) { e = event; }
+    if (!e) {
+        e = event;
+    }
     hideTip(e, currentTipElement, currentTip);
 }
 

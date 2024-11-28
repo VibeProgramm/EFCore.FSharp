@@ -38,12 +38,11 @@ type FSharpDbContextGenerator
         =
 
         annotationCodeGenerator.GenerateFluentApiCalls(annotatable, annotations)
-        |> Seq.iter
-            (fun fluentApiCall ->
-                lines.Add(code.Fragment(fluentApiCall))
+        |> Seq.iter (fun fluentApiCall ->
+            lines.Add(code.Fragment(fluentApiCall))
 
-                if notNull fluentApiCall.Namespace then
-                    namespaces.Add fluentApiCall.Namespace |> ignore)
+            if notNull fluentApiCall.Namespace then
+                namespaces.Add fluentApiCall.Namespace |> ignore)
 
         lines.AddRange(
             annotations.Values
@@ -203,8 +202,7 @@ type FSharpDbContextGenerator
         if lines |> Seq.isEmpty then
             None
         else
-            let head =
-                entityLambdaIdentifier + (lines |> Seq.head)
+            let head = entityLambdaIdentifier + (lines |> Seq.head)
 
             let tail = lines |> Seq.tail
 
@@ -300,8 +298,7 @@ type FSharpDbContextGenerator
         let schema = entityType.GetSchema()
         let defaultSchema = entityType.Model.GetDefaultSchema()
 
-        let explicitSchema =
-            not (isNull schema) && schema <> defaultSchema
+        let explicitSchema = not (isNull schema) && schema <> defaultSchema
 
         let explicitTable =
             explicitSchema
@@ -322,8 +319,7 @@ type FSharpDbContextGenerator
         let viewName = entityType.GetViewName()
         let viewSchema = entityType.GetViewSchema()
 
-        let explicitViewSchema =
-            notNull viewSchema && viewSchema <> defaultSchema
+        let explicitViewSchema = notNull viewSchema && viewSchema <> defaultSchema
 
         let explicitViewTable = explicitViewSchema || notNull viewName
 
@@ -519,8 +515,7 @@ type FSharpDbContextGenerator
                 else
                     ""
 
-            let methodParams =
-                code.Lambda(fk.PrincipalKey.Properties, "p")
+            let methodParams = code.Lambda(fk.PrincipalKey.Properties, "p")
 
             lines.Add(sprintf ".HasPrincipalKey%s(%s)" typeParam methodParams)
 
@@ -620,8 +615,7 @@ type FSharpDbContextGenerator
             let schema = joinEntityType.GetSchema()
             let defaultSchema = joinEntityType.Model.GetDefaultSchema()
 
-            let explicitSchema =
-                notNull schema && schema <> defaultSchema
+            let explicitSchema = notNull schema && schema <> defaultSchema
 
             let parameterString =
                 if explicitSchema then
@@ -821,8 +815,7 @@ type FSharpDbContextGenerator
 
     let generateEntityType (entityType: IEntityType) (useDataAnnotations: bool) =
 
-        let key =
-            generateKey (entityType.FindPrimaryKey()) entityType useDataAnnotations
+        let key = generateKey (entityType.FindPrimaryKey()) entityType useDataAnnotations
 
         let annotations =
             annotationCodeGenerator.FilterIgnoredAnnotations(entityType.GetAnnotations())
@@ -873,17 +866,16 @@ type FSharpDbContextGenerator
                 generateRelationship fk useDataAnnotations
 
             entityType.GetSkipNavigations()
-            |> Seq.map
-                (fun skip ->
-                    let containingKey =
-                        skip.JoinEntityType.FindPrimaryKey().Properties.[0]
-                            .GetContainingForeignKeys()
-                        |> Seq.head
+            |> Seq.map (fun skip ->
+                let containingKey =
+                    skip.JoinEntityType.FindPrimaryKey().Properties.[0]
+                        .GetContainingForeignKeys()
+                    |> Seq.head
 
-                    if containingKey.PrincipalEntityType = entityType then
-                        generateManyToMany skip |> Some
-                    else
-                        None)
+                if containingKey.PrincipalEntityType = entityType then
+                    generateManyToMany skip |> Some
+                else
+                    None)
         }
 
 
@@ -936,12 +928,11 @@ type FSharpDbContextGenerator
                         let lines' = lines |> Seq.tail
 
                         lines'
-                        |> Seq.mapi
-                            (fun i line ->
-                                if i = ((lines' |> Seq.length) - 1) then
-                                    line + " |> ignore"
-                                else
-                                    line)
+                        |> Seq.mapi (fun i line ->
+                            if i = ((lines' |> Seq.length) - 1) then
+                                line + " |> ignore"
+                            else
+                                line)
 
                         ""
                     }
@@ -1039,16 +1030,15 @@ type FSharpDbContextGenerator
 
             let mutable finalNamespaces =
                 namespaces
-                |> Seq.sortBy
-                    (fun n ->
-                        (match n with
-                         | "System" -> 1
-                         | x when x.StartsWith("System", StringComparison.Ordinal) -> 2
-                         | x when x.StartsWith("Microsoft", StringComparison.Ordinal) -> 3
-                         | x when x.StartsWith("EntityFrameworkCore.FSharp", StringComparison.Ordinal) -> 4
-                         | _ -> 5),
+                |> Seq.sortBy (fun n ->
+                    (match n with
+                     | "System" -> 1
+                     | x when x.StartsWith("System", StringComparison.Ordinal) -> 2
+                     | x when x.StartsWith("Microsoft", StringComparison.Ordinal) -> 3
+                     | x when x.StartsWith("EntityFrameworkCore.FSharp", StringComparison.Ordinal) -> 4
+                     | _ -> 5),
 
-                        n)
+                    n)
 
             if
                 finalContextNamespace <> modelNamespace

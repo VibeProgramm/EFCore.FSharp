@@ -1,16 +1,15 @@
-
 var themes = {
-    "light" : {
-        "button-text" : "Swap to Dark",
-        "button-classes" : "btn btn-dark border-light",
-        "next-theme" : "dark",
-        "body-class" : "bootstrap"
+    "light": {
+        "button-text": "Swap to Dark",
+        "button-classes": "btn btn-dark border-light",
+        "next-theme": "dark",
+        "body-class": "bootstrap"
     },
-    "dark" : {
-        "button-text" : "Swap to Light",
-        "button-classes" : "btn btn-light",
-        "next-theme" : "light",
-        "body-class" : "bootstrap-dark"
+    "dark": {
+        "button-text": "Swap to Light",
+        "button-classes": "btn btn-light",
+        "next-theme": "light",
+        "body-class": "bootstrap-dark"
     }
 };
 
@@ -31,7 +30,7 @@ function setToggleButton(theme) {
     var themeToggleButton = document.getElementById('theme-toggle');
     themeToggleButton.textContent = newTheme['button-text'];
     themeToggleButton.className = newTheme['button-classes'];
-    themeToggleButton.onclick = function() {
+    themeToggleButton.onclick = function () {
         setTheme(newTheme['next-theme']);
     }
 }
@@ -39,18 +38,15 @@ function setToggleButton(theme) {
 function setTheme(theme) {
     try {
         swapThemeInDom(theme);
-    }
-    catch(e){
+    } catch (e) {
     }
     try {
-    persistNewTheme(theme);
-    }
-    catch(e) {
+        persistNewTheme(theme);
+    } catch (e) {
     }
     try {
         setToggleButton(theme);
-    }
-    catch (e) {
+    } catch (e) {
     }
 }
 
@@ -60,14 +56,12 @@ function getThemeFromStorage() {
 
 function getThemeFromScheme() {
     try {
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches){
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
             return 'dark';
-        }
-        else {
+        } else {
             return 'light';
         }
-    }
-    catch(e) {
+    } catch (e) {
         return null;
     }
 }

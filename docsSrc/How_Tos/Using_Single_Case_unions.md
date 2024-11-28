@@ -1,7 +1,8 @@
 # Single case union types (aka Simple types)
-It's common to use single case discriminated unions to meaningfully represent data values.
-But EF does not know anything about this kind of type. Luckily this repository has some ways to help you to deal with they.
 
+It's common to use single case discriminated unions to meaningfully represent data values.
+But EF does not know anything about this kind of type. Luckily this repository has some ways to help you to deal with
+they.
 
     [hide]
     #r "Microsoft.EntityFrameworkCore.Sqlite.dll"
@@ -15,9 +16,8 @@ But EF does not know anything about this kind of type. Luckily this repository h
 
 ## Configuring
 
-We have two approaches to deal with single case union types which are a converter or an extension that searches for all Single Case Unions in your entities.
-
-
+We have two approaches to deal with single case union types which are a converter or an extension that searches for all
+Single Case Unions in your entities.
 
 ```fsharp
 open EntityFrameworkCore.FSharp.Extensions
@@ -79,7 +79,6 @@ let blog =
  // or  
 let blog' = ctx.Blogs.Where(fun b -> b.Votes = PositiveInteger 10).FirstOrDefault()
 ```
-
 
 For querying with other types of operation you will need to unwrap the value inside the query
 
