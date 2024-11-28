@@ -12,9 +12,9 @@ For a basic introduction to running code-first migrations, please see the [getti
 
 ## NuGet
 
- Package       | Stable                                                                                                                                 | Prerelease                                                                                                                                                     
----------------|----------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------
- EFCore.FSharp | [![NuGet Badge](https://buildstats.info/nuget/EntityFrameworkCore.FSharp)](https://www.nuget.org/packages/EntityFrameworkCore.FSharp/) | [![NuGet Badge](https://buildstats.info/nuget/EntityFrameworkCore.FSharp?includePreReleases=true)](https://www.nuget.org/packages/EntityFrameworkCore.FSharp/) 
+| Package       | Stable                                                                                                                                 | Prerelease                                                                                                                                                     |
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| EFCore.FSharp | [![NuGet Badge](https://buildstats.info/nuget/EntityFrameworkCore.FSharp)](https://www.nuget.org/packages/EntityFrameworkCore.FSharp/) | [![NuGet Badge](https://buildstats.info/nuget/EntityFrameworkCore.FSharp?includePreReleases=true)](https://www.nuget.org/packages/EntityFrameworkCore.FSharp/) |
 
 ---
 
